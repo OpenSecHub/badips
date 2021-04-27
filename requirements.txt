@@ -1,0 +1,5 @@
+pyyaml
+urllib3
+redis
+IPy
+geoip2

@@ -1,0 +1,246 @@
+# where to store the cralwer data
+database:
+  type: redis
+  host: 10.130.12.66
+  port: 6379
+  db: 0
+  table: 0
+  passwd: red@6379
+  ssl: no
+
+# proxy to access the http url
+proxy:
+  # NO : do not use proxy
+  # ALL: access all urls via proxy
+  # TRY: if access fail, use proxy
+  policy: TRY
+  url: "http://192.168.254.1:1080"
+
+sources:
+
+  - source:
+      name: alienvault.com
+      status: ENABLE
+      url: https://reputation.alienvault.com/reputation.generic
+      # the source release date, get from HTTP reponse header or HTTP reponse body
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        # remove comments, this is a regular expression pattern, will replace with empty
+        pattern_str: "^.+$"
+        pattern_index: 0
+
+  - source:
+      name: feodotracker.abuse.ch
+      status: ENABLE
+      url: https://feodotracker.abuse.ch/downloads/ipblocklist.csv
+      date:
+        location: BODY
+        pattern_str: "Last updated:\\s*(.+?)\\s*#"
+        pattern_index: 1
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: ",\"([\\d\\.]+?)\","
+        pattern_index: 1
+
+  - source:
+      name: danger.rulez.sk
+      status: ENABLE
+      url: http://danger.rulez.sk/projects/bruteforceblocker/blist.php
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "^.+$"
+        pattern_index: 0
+
+  - source:
+      name: cinsscore.com
+      status: ENABLE
+      url: http://cinsscore.com/list/ci-badguys.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      data:
+        pattern_str: "^.+$"
+        pattern_index: 0
+
+  - source:
+      name: feeds.dshield.org
+      status: ENABLE
+      url: https://feeds.dshield.org/top10-2.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      data:
+        pattern_str: "^\\s*([\\d\\.]+)\\s"
+        pattern_index: 1
+
+  - source:
+      name: rules.emergingthreats.net
+      status: ENABLE
+      url: https://rules.emergingthreats.net/open/suricata/rules/compromised-ips.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      data:
+        pattern_str: "^\\s*([\\d\\.]+)\\s*$"
+        pattern_index: 1
+
+  - source:
+      name: blocklist.greensnow.co
+      status: ENABLE
+      url: http://blocklist.greensnow.co/greensnow.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      data:
+        pattern_str: "^(.+)$"
+        pattern_index: 1
+
+  - source:
+      name: report.cs.rutgers.edu
+      status: ENABLE
+      url: https://report.cs.rutgers.edu/DROP/attackers
+      date:
+        location: HEADER
+        field: Last-Modified
+      data:
+        pattern_str: "^(.+)$"
+        pattern_index: 1
+
+  - source:
+      name: danger.rulez.sk
+      status: ENABLE
+      url: http://danger.rulez.sk/projects/bruteforceblocker/blist.php
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "^.+$"
+        pattern_index: 0
+
+  - source:
+      name: dataplane.org:dnsrd
+      status: ENABLE
+      url: https://dataplane.org/dnsrd.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:dnsrdany
+      status: ENABLE
+      url: https://dataplane.org/dnsrdany.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:dnsversion
+      status: ENABLE
+      url: https://dataplane.org/dnsversion.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:sipinvitation
+      status: ENABLE
+      url: https://dataplane.org/sipinvitation.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:sipquery
+      status: ENABLE
+      url: https://dataplane.org/sipquery.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:sipregistration
+      status: ENABLE
+      url: https://dataplane.org/sipregistration.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:sshclient
+      status: ENABLE
+      url: https://dataplane.org/sshclient.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:sshpwauth
+      status: ENABLE
+      url: https://dataplane.org/sshpwauth.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
+
+  - source:
+      name: dataplane.org:vncrfb
+      status: ENABLE
+      url: https://dataplane.org/vncrfb.txt
+      date:
+        location: HEADER
+        field: Last-Modified
+      comment:
+        pattern_str: "(\\s*)#.*$"
+      data:
+        pattern_str: "\\|\\s*([\\d\\.]+?)\\s*\\|"
+        pattern_index: 1
